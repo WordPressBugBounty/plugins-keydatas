@@ -136,8 +136,8 @@ if (isset($formSubmit) && $formSubmit != '') {
 		  <div class="feature">3.图片下载支持存储到：阿里云OSS、七牛云、腾讯云COS等;（支持水印、压缩等）</div>
 		  <div class="feature">4.<strong>全自动化：定时采集+自动发送</strong>;</div>
 		  <div class="feature">5.支持规则处理，包括：字段补充内容或关键词、关键词内链、简繁体转换、翻译、第三方API等；</div>
-		  <div class="feature">6.<strong>支持对接多种AI大模型API</strong>，轻松进行内容生成创作。支持：百度文心一言、Kimi、豆包、通义千问、讯飞星火大模型等;</div>
-		  <div class="feature">7.支持关键词泛采集;</div>
+		  <div class="feature">6.<strong>支持对接多种AI大模型API</strong>，轻松进行内容生成创作。AI支持：DeepSeek、百度文心一言、Kimi、豆包、通义千问、讯飞星火大模型等;</div>
+		  <div class="feature">7.支持关键词泛采集;支持JSON采集和无限循环采集；</div>
 		  <div class="feature">8.与WordPress系统无缝结合，数据可轻松发送到WordPress系统中。</div>
 		  </td>
         </tr>	

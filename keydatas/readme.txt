@@ -4,9 +4,9 @@ Tags:  文章采集,采集,简数,数据采集
 Donate link: http://www.keydatas.com
 Author URI: http://www.keydatas.com
 Plugin URI: http://www.keydatas.com/wordpress-plugin
-Stable tag: 2.6.2
+Stable tag: 2.6.3
 Requires at least: 4.1
-Tested up to: 6.6.1
+Tested up to: 6.8.1
 Requires PHP: 5.2.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -22,7 +22,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 3.智能识别数据和规则，包括：列表页、翻页和详情页（标题、正文、作者、时间等）；<br>
 4.定时自动采集更新；<br>
 5.图片支持下载到（阿里云OSS、七牛对象存储、腾讯云COS、又拍云）；<br>
-6.支持对接多种AI大模型API，轻松进行内容生成创作。支持：百度文心一言、Kimi、豆包、通义千问、5118、讯飞星火大模型等。
+6.支持对接多种AI大模型API，轻松进行内容生成创作。AI支持：DeepSeek、百度文心一言、Kimi、豆包、通义千问、5118、讯飞星火大模型等。
 7.相比其它采集器，简数采集器更加简单易用，功能同样强大，且没有繁杂的流程；<br>
 8.其它相关：火车头、八爪鱼、后羿；<br>
 9.realation: caiji,seo,mip,keyword,description,jianshu,weixin,wechat,robot,spider,jinritoutiao,taobaoke,aliyun,qiniu,tengxunyun,baidu,huochetou,houyicaiji,shenjian,CSDN,cnblogs,zhihu,jianshu,wenzhang,gongzhonghao,locoy,bazhuayu,shenjianshou,wpspider,WP-AutoPost(WP-AutoBlog),WP-Jpost,5118,QQWorld.<br>
