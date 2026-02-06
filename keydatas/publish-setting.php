@@ -34,7 +34,8 @@ function keydatas_genRandomPassword($length = 32) {
     $charactersLength = strlen($characters);  
     $randomString = '';  
     for ($i = 0; $i < $length; $i++) {  
-        $randomString .= $characters[mt_rand(0, $charactersLength - 1)];  
+        //$randomString .= $characters[mt_rand(0, $charactersLength - 1)];  
+		$randomString .= $characters[wp_rand(0, $charactersLength - 1)];  
     }  
     return $randomString;  
 }  
@@ -45,17 +46,17 @@ $keydatas_password= keydatas_genRandomPassword();// 生成默认随机密码
 $keydatas_title_unique=false;
 $keydatas_tbk_link_enble=false;
 
-  $formSubmit="";
+ 	$keydatas_formSubmit="";
 	if(isset($_POST['formSubmit'])){
-		$formSubmit = sanitize_text_field($_POST['formSubmit']);
+		$keydatas_formSubmit = sanitize_text_field($_POST['formSubmit']);
 	}
-if (isset($formSubmit) && $formSubmit != '') {
+if (isset($keydatas_formSubmit) && $keydatas_formSubmit != '') {
 	if(check_admin_referer('keydatas_save_nonce') &&  current_user_can( 'manage_options' )){
 		$keydatas_password =isset($_POST['keydatas_password']) ? sanitize_text_field($_POST['keydatas_password']) : '';
-		$kds_title_unique =isset($_POST['keydatas_title_unique']) ? sanitize_text_field($_POST['keydatas_title_unique']) : '';
-		$keydatas_title_unique = isset($kds_title_unique) && $kds_title_unique=="true";
-		$kds_tbk_link_enble = isset($_POST['keydatas_tbk_link_enble']) ? sanitize_text_field($_POST['keydatas_tbk_link_enble']) : '';
-		$keydatas_tbk_link_enble = isset($kds_tbk_link_enble) && $kds_tbk_link_enble=="true";
+		$keydatas_kds_title_unique =isset($_POST['keydatas_title_unique']) ? sanitize_text_field($_POST['keydatas_title_unique']) : '';
+		$keydatas_title_unique = isset($keydatas_kds_title_unique) && $keydatas_kds_title_unique=="true";
+		$keydatas_kds_tbk_link_enble = isset($_POST['keydatas_tbk_link_enble']) ? sanitize_text_field($_POST['keydatas_tbk_link_enble']) : '';
+		$keydatas_tbk_link_enble = isset($keydatas_kds_tbk_link_enble) && $keydatas_kds_tbk_link_enble=="true";
 		update_option('keydatas_password', $keydatas_password);
 		update_option('keydatas_title_unique', $keydatas_title_unique);
 		update_option('keydatas_tbk_link_enble', $keydatas_tbk_link_enble);
@@ -85,11 +86,11 @@ if (isset($formSubmit) && $formSubmit != '') {
                                 } else {
                                     echo "http://";
                                 }
-                                $httpHost='';
+                                $keydatas_httpHost='';
                                 if(isset($_SERVER['HTTP_HOST']) && isset($_SERVER['SCRIPT_NAME'])){
-																	$httpHost=$_SERVER['HTTP_HOST'] . str_replace('/wp-admin', '', dirname($_SERVER['SCRIPT_NAME']));
+																	$keydatas_httpHost=$_SERVER['HTTP_HOST'] . str_replace('/wp-admin', '', dirname($_SERVER['SCRIPT_NAME']));
 																}
-                                $domain = str_replace('\\', '/', $httpHost);
+                                $domain = str_replace('\\', '/', $keydatas_httpHost);
                                 echo esc_textarea($domain); ?>" />（采集请到 <a href="http://dash.keydatas.com?utm_source=wordpress" target="_blank">简数控制台</a>）
             
             </td>

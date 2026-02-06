@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: 简数采集平台
+Plugin Name: 简数采集器
 Plugin URI: http://www.keydatas.com/caiji/wordpress-cms-caiji
 Description: 简数采集器(keydatas.com)是一个通用、简单、智能、在线的网页数据采集器，功能强大，操作简单。支持按关键词采集；集成AI大模型接口、翻译等服务；图片下载支持存储到阿里云OSS、七牛、腾讯云对象存储等。
-Version: 2.6.3
+Version: 2.6.4
 Author: keydatas
 Author URI: http://www.keydatas.com
 License: GPLv2 or later
@@ -21,7 +21,8 @@ function keydatas_rsp($result = 1,$code = 0, $data = "", $msg = "") {
 	die(json_encode(array("rs" => $result, "code" => $code, "data" => $data, "msg" => urlencode($msg))));
 }
 function keydatas_genRandomIp(){
-	$randIP = "".mt_rand(0,255).".".mt_rand(0,255).".".mt_rand(0,255).".".mt_rand(0,255);
+	// $randIP = "".mt_rand(0,255).".".mt_rand(0,255).".".mt_rand(0,255).".".mt_rand(0,255);
+	$randIP = "" . wp_rand(0, 255) . "." . wp_rand(0, 255) . "." . wp_rand(0, 255) . "." . wp_rand(0, 255);
 	return $randIP;
 }
 
@@ -39,7 +40,8 @@ function  keydatas_getPostValSafe($paraName = ""){
  * @return Float
  */
 function keydatas_randFloat($min=0, $max=1){
-    return $min + mt_rand()/mt_getrandmax() * ($max-$min);
+    //return $min + mt_rand()/mt_getrandmax() * ($max-$min);
+	 return $min + wp_rand() / mt_getrandmax() * ($max - $min);
 }
 
 if (is_admin()) {
@@ -167,7 +169,7 @@ function keydatas_post_doc() {
 			//error_log('title:'.stripslashes($my_post['post_title']), 3, '/var/log/wp_test.log');
 			if($title_unique){				
 				//只返回id
-                $post = $wpdb->get_row($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_title='%s' and post_status!='trash' and post_status!='inherit' ",stripslashes($my_post['post_title'])));
+                $post = $wpdb->get_row($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_title= %s and post_status!='trash' and post_status!='inherit' ",stripslashes($my_post['post_title'])));
                 if(!empty($post)){
 					//这里可以补充图片
 					keydatas_downloadImages();
@@ -178,9 +180,11 @@ function keydatas_post_doc() {
 			$post_date=keydatas_getPostValSafe("post_date");
 			if (!empty($post_date)) {
 				$post_date = intval($post_date);
-				$my_post['post_date'] = date("Y-m-d H:i:s", $post_date);
+				//$my_post['post_date'] = date("Y-m-d H:i:s", $post_date);
+				$my_post['post_date'] = gmdate("Y-m-d H:i:s", $post_date);
 			} else {
-				$my_post['post_date'] = date("Y-m-d H:i:s", time());
+				//$my_post['post_date'] = date("Y-m-d H:i:s", time());
+				$my_post['post_date'] = gmdate("Y-m-d H:i:s", time());
 			}
 
 			$author = keydatas_getPostValSafe("post_author");
@@ -189,9 +193,15 @@ function keydatas_post_doc() {
 				if($author == "rand_users"){
 					$randNum=keydatas_randFloat();
 					//SELECT ID FROM $wpdb->users order by rand() limit 1
-					$user_id = $wpdb->get_var("SELECT ID FROM $wpdb->users WHERE 
-id >= ((SELECT MAX(id) FROM $wpdb->users)-(SELECT MIN(id) FROM $wpdb->users)) * ".$randNum."+ (SELECT MIN(id) FROM $wpdb->users) LIMIT 1");
-					//error_log('rand_users:'.$user_id, 3, '/var/log/wp_test.log');
+					/** $user_id = $wpdb->get_var("SELECT ID FROM $wpdb->users WHERE 
+id >= ((SELECT MAX(id) FROM $wpdb->users)-(SELECT MIN(id) FROM $wpdb->users)) * ".$randNum."+ (SELECT MIN(id) FROM $wpdb->users) LIMIT 1");			
+					*/
+					$user_id = $wpdb->get_var(
+							$wpdb->prepare(
+								"SELECT ID FROM $wpdb->users WHERE id >= ((SELECT MAX(id) FROM $wpdb->users)-(SELECT MIN(id) FROM $wpdb->users)) * %f + (SELECT MIN(id) FROM $wpdb->users) LIMIT 1",
+								$randNum
+							)
+						);
 				}else{
 					//用户名（登录名）					
 					$user_id = username_exists($author);
@@ -288,40 +298,56 @@ id >= ((SELECT MAX(id) FROM $wpdb->users)-(SELECT MIN(id) FROM $wpdb->users)) * 
 			}
 			if (!empty($post_id) && !empty($image_url)) {
 					$image_url_final=$image_url;
+					// 协议白名单验证 - 只允许http和https
+					$parsed_url = parse_url($image_url);
+					if (isset($parsed_url['scheme']) && !in_array(strtolower($parsed_url['scheme']), ['http', 'https'])) {
+						// 记录安全日志或抛出错误
+						//error_log('Security warning: Invalid URL scheme detected: ' . $image_url);
+						$image_url_final = '';
+					}
 					
 					if (substr($image_url, 0, 2) ==="//") {
 						$image_url_final='http:'.$image_url;
 					}else if(strpos($image_url, '/') === 0) {
 						$image_url_final=get_home_url().$image_url;
 					}	
-					$upload_dir = wp_upload_dir();
-					$image_data = file_get_contents($image_url_final);
-					$suffix = "jpg";
-					$filename = md5($image_url_final) . "." . $suffix;
-					if (wp_mkdir_p($upload_dir['path'])) {
-						$file = $upload_dir['path'] . '/' . $filename;
-					} else {
-						$file = $upload_dir['basedir'] . '/' . $filename;
-					}
-
-					file_put_contents($file, $image_data);
-					if (file_exists($file)) {
-						//error_log('file_exists:'.$filename, 3, '/var/log/wp_test.log');
-						$wp_filetype = wp_check_filetype($filename, null);
-						$attachment = array(
-							'post_mime_type' => $wp_filetype['type'],
-							'post_title' => sanitize_file_name($filename),
-							'post_content' => '',
-							'post_status' => 'inherit'
-						);
-						// attachment相关
-						$attach_id = wp_insert_attachment($attachment, $file, $post_id);
-						require_once(ABSPATH . 'wp-admin/includes/image.php');
-						$attach_data = wp_generate_attachment_metadata($attach_id, $file);
-						wp_update_attachment_metadata($attach_id, $attach_data);
-						set_post_thumbnail($post_id, $attach_id);
-					}
-			}
+					 // 再次验证最终URL的协议
+					$final_parsed_url = parse_url($image_url_final);
+					if (!empty($image_url_final) && isset($final_parsed_url['scheme']) && 
+						in_array(strtolower($final_parsed_url['scheme']), ['http', 'https'])) {
+					
+						$upload_dir = wp_upload_dir();
+						$image_data = file_get_contents($image_url_final);
+						$suffix = "jpg";
+						$raw_filename = md5($image_url_final) . "." . $suffix;
+						// 使用sanitize_file_name()清理文件名
+                		$filename = sanitize_file_name($raw_filename);
+						
+						if (wp_mkdir_p($upload_dir['path'])) {
+							$file = $upload_dir['path'] . '/' . $filename;
+						} else {
+							$file = $upload_dir['basedir'] . '/' . $filename;
+						}
+	
+						file_put_contents($file, $image_data);
+						if (file_exists($file)) {
+							//error_log('file_exists:'.$filename, 3, '/var/log/wp_test.log');
+							$wp_filetype = wp_check_filetype($filename, null);
+							$attachment = array(
+								'post_mime_type' => $wp_filetype['type'],
+								'post_title' => sanitize_file_name($filename),
+								'post_content' => '',
+								'post_status' => 'inherit'
+							);
+							// attachment相关
+							$attach_id = wp_insert_attachment($attachment, $file, $post_id);
+							require_once(ABSPATH . 'wp-admin/includes/image.php');
+							$attach_data = wp_generate_attachment_metadata($attach_id, $file);
+							wp_update_attachment_metadata($attach_id, $attach_data);
+							set_post_thumbnail($post_id, $attach_id);
+						}
+					}// .. 协议校验end
+			}// .. no  empty image_url
 			/////
 			keydatas_downloadImages();
 			
