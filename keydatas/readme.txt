@@ -4,9 +4,9 @@ Tags:  文章采集,采集,简数,数据采集
 Donate link: http://www.keydatas.com
 Author URI: http://www.keydatas.com
 Plugin URI: http://www.keydatas.com/wordpress-plugin
-Stable tag: 2.6.4
+Stable tag: 2.7.1
 Requires at least: 4.1
-Tested up to: 6.8
+Tested up to: 7.0.1
 Requires PHP: 5.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -37,6 +37,8 @@ autospider,fanyi,Translate,LightSNS,collect<br>
 
 == Frequently Asked Questions ==
 == Changelog ==
+= 2.7.1 =
+* 更新版本号，支持Wordpress7.0.1
 = 2.6.4 =
 * 优化代码，使通过plugin-check
 = 2.6.1 =
