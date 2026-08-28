@@ -4,9 +4,9 @@ Tags:  文章采集,采集,简数,数据采集
 Donate link: http://www.keydatas.com
 Author URI: http://www.keydatas.com
 Plugin URI: http://www.keydatas.com/wordpress-plugin
-Stable tag: 2.7.1
+Stable tag: 2.7.2
 Requires at least: 4.1
-Tested up to: 7.0.1
+Tested up to: 7.1
 Requires PHP: 5.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html

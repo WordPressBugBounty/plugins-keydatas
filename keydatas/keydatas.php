@@ -3,7 +3,7 @@
 Plugin Name: 简数采集器
 Plugin URI: http://www.keydatas.com/caiji/wordpress-cms-caiji
 Description: 简数采集器(keydatas.com)是一个通用、简单、智能、在线的网页数据采集器，功能强大，操作简单。支持按关键词采集；集成AI大模型接口、翻译等服务；图片下载支持存储到阿里云OSS、七牛、腾讯云对象存储等。
-Version: 2.7.1
+Version: 2.7.2
 Author: keydatas
 Author URI: http://www.keydatas.com
 License: GPLv2 or later
