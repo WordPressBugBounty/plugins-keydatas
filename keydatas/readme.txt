@@ -4,14 +4,14 @@ Tags:  文章采集,采集,简数,数据采集
 Donate link: http://www.keydatas.com
 Author URI: http://www.keydatas.com
 Plugin URI: http://www.keydatas.com/wordpress-plugin
-Stable tag: 2.7.2
+Stable tag: 2.8.1
 Requires at least: 4.1
 Tested up to: 7.1
 Requires PHP: 5.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-简数采集器不仅提供网页文章全自动采集、定时采集等基本功能，还创新实现了智能识别和鼠标可视化点选生成采集规则(不用手写规则)、书签一键采集等特色功能，大幅提升了采集配置效率。
+简数采集器不仅提供网页文章全自动采集、定时采集等基本功能，还创新实现了智能识别和鼠标可视化点选生成采集规则(不用手写规则)、书签一键采集等特色功能，大幅提升了采集配置效率。支持WooCommerce商品发布。
 
 
 == Description ==
@@ -25,10 +25,10 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 6.支持对接多种AI大模型API，轻松进行内容生成创作。AI支持：DeepSeek、百度文心一言、Kimi、豆包、通义千问、5118、讯飞星火大模型等。
 7.相比其它采集器，简数采集器更加简单易用，功能同样强大，且没有繁杂的流程；<br>
 8.其它相关：火车头、八爪鱼、后羿；<br>
-9.realation: caiji,seo,mip,keyword,description,jianshu,weixin,wechat,robot,spider,jinritoutiao,taobaoke,aliyun,qiniu,tengxunyun,baidu,huochetou,houyicaiji,shenjian,CSDN,cnblogs,zhihu,jianshu,wenzhang,gongzhonghao,locoy,bazhuayu,shenjianshou,wpspider,WP-AutoPost(WP-AutoBlog),WP-Jpost,5118,QQWorld.<br>
+9.realation: WooCommerce,caiji,seo,mip,keyword,description,jianshu,weixin,wechat,robot,spider,jinritoutiao,taobaoke,aliyun,qiniu,tengxunyun,baidu,huochetou,houyicaiji,shenjian,CSDN,cnblogs,zhihu,jianshu,wenzhang,gongzhonghao,locoy,bazhuayu,shenjianshou,wpspider,WP-AutoPost(WP-AutoBlog),WP-Jpost,5118,QQWorld.<br>
 10.SEO Plugin,huochetou,google XML sitemap,WP Baidu Map,baiduxzh,Sitemap,baidu-submit-link,AutoTags,Github.<br>
 autospider,fanyi,Translate,LightSNS,collect<br>
-11.wordpress插件推荐：百度熊掌号,百度推送,WordPress HTTPS (SSL),wp encrypt,really simple ssl,WPJAM-Basic,wp-super-cache,WP Rocket,All-in-One SEO Pack,login LockDown,Comments Link Redirect,Add Post URL,BackWPup,DX-auto-publish,Link Manager,No Category Parents,Platinum SEO Pack,WP Keyword Link,Yet Another Related Posts Plugin,Fix image width,Role Manager,Search & Replace,WordPress Database Backup,WP-PostViews,WP PHP widget,Baidu Sitemap Generator,DB Cache Reloaded Fix + Hyper Cache,SEO Friendly Images,BackWPup,Simple URLs,Redirection.
+11.wordpress插件推荐：WooCommerce,百度熊掌号,百度推送,WordPress HTTPS (SSL),wp encrypt,really simple ssl,WPJAM-Basic,wp-super-cache,WP Rocket,All-in-One SEO Pack,login LockDown,Comments Link Redirect,Add Post URL,BackWPup,DX-auto-publish,Link Manager,No Category Parents,Platinum SEO Pack,WP Keyword Link,Yet Another Related Posts Plugin,Fix image width,Role Manager,Search & Replace,WordPress Database Backup,WP-PostViews,WP PHP widget,Baidu Sitemap Generator,DB Cache Reloaded Fix + Hyper Cache,SEO Friendly Images,BackWPup,Simple URLs,Redirection.
 
 == Installation ==
 安装：
@@ -37,6 +37,14 @@ autospider,fanyi,Translate,LightSNS,collect<br>
 
 == Frequently Asked Questions ==
 == Changelog ==
+
+= 2.8.1 =
+* 新增WooCommerce商品发布支持：支持商品分类(product_cat)、商品标签(product_tag)、商品相册、价格/促销价/SKU/库存等商品字段；
+* 新增商品相册(_product_image_gallery)支持，填图片地址即可自动下载并转换；未填商品主图时相册第一张自动作为主图
+* 特色图片与商品相册新增按图片地址查重，同一张图只下载一次、只创建一个媒体库附件
+* 修复正文图片下载对「主机名含下划线」和中文域名失效的问题；正文图片URL校验改为只允许http/https协议
+* 图片下载新增单张最大12MB、单张最长30秒的限制，避免图源异常时长时间占满服务器进程拖慢整站；超限或失败会记录日志
+* 接口健壮性加固
 = 2.7.1 =
 * 更新版本号，支持Wordpress7.0.1
 = 2.6.4 =
